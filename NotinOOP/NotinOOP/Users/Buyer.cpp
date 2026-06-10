@@ -87,7 +87,7 @@ void Buyer::viewPurchases() const
 		return;
 	}
 
-	std::cout << "\n========= YOUR ORDER HISTORY ============\n";
+	std::cout << "\n================= YOUR ORDER HISTORY =================n";
 
 	std::cout << std::left
 		<< std::setw(10) << "Order ID"

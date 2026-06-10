@@ -24,6 +24,10 @@ class NotinOOP
     Admin* loggedAdmin;
     Buyer* loggedBuyer;
 
+    void loadFragrances(std::ifstream& in, const std::string& firstToken);
+    void loadUsers(std::ifstream& in, const std::string& role);
+    void loadPurchases(std::ifstream& in, const std::string& firstToken);
+
 public:
     NotinOOP();
 
