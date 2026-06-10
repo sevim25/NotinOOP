@@ -10,4 +10,5 @@ public:
 	BonusDiscount(unsigned discountId, double discountPercent, double bonus);
 
 	double apply(const Fragrance* fragrance) const override;
+	void save(std::ostream& out) const override;
 };

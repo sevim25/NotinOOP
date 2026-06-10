@@ -67,3 +67,7 @@ FragranceFamily Wishlist::getFavoriteNote(const std::vector<std::unique_ptr<Frag
 
 	return favNote;
 }
+
+const std::vector<std::string>& Wishlist::getItems() const {
+	return items;
+}

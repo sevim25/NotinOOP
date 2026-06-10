@@ -1,5 +1,7 @@
 #include "User.h"
 
+unsigned User::nextId = 1;
+
 User::User(unsigned userId, const std::string& username, const std::string& password)
 	: userId(userId), username(username), password(password) {}
 
@@ -52,4 +54,9 @@ Admin* User::asAdmin()
 Buyer* User::asBuyer()
 {
 	return nullptr;
+}
+
+void User::setNextId(unsigned id)
+{
+	nextId = id;
 }

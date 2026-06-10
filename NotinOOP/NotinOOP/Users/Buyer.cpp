@@ -46,6 +46,11 @@ Purchase* Buyer::findPurchase(unsigned purchaseId)
 	return nullptr;
 }
 
+void Buyer::addDiscount(std::unique_ptr<Discount> d)
+{
+	discounts.push_back(std::move(d));
+}
+
 // VIEW functions
 
 void Buyer::viewCart() const
@@ -82,7 +87,7 @@ void Buyer::viewPurchases() const
 		return;
 	}
 
-	std::cout << "\n=== YOUR ORDER HISTORY ===\n";
+	std::cout << "\n========= YOUR ORDER HISTORY ============\n";
 
 	std::cout << std::left
 		<< std::setw(10) << "Order ID"
@@ -250,14 +255,14 @@ void Buyer::cancel(unsigned purchaseId)
 
 void Buyer::help() const
 {
-	std::cout << "=== BUYER COMMANDS ===\n"
-		<< " add-to-cart <name>			- Adds perfume to cart\n"
-		<< " remove-from-cart <name>    - Removes perfume from cart\n"
-		<< " add-to-wishlist <name>		- Adds perfume to favorites\n"
-		<< " checkout				    - Checkout cart\n"
-		<< " recommend					- Recommends 3 perfumes\n"
-		<< " cancel <id>				- Cancels PENDING order\n"
-		<< " make-review <name>			- Leave a review for perfume\n"
+	std::cout << "==================== BUYER COMMANDS =====================n"
+		<< " -> add-to-cart <name>			- Adds perfume to cart\n"
+		<< " -> remove-from-cart <name>     - Removes perfume from cart\n"
+		<< " -> add-to-wishlist <name>		- Adds perfume to favorites\n"
+		<< " -> checkout				    - Checkout cart\n"
+		<< " -> recommend					- Recommends 3 perfumes\n"
+		<< " -> cancel <id>					- Cancels PENDING order\n"
+		<< " -> make-review <name>			- Leave a review for perfume\n"
 		<< "==============================\n";
 }
 
@@ -268,5 +273,18 @@ std::string Buyer::getRole() const
 
 void Buyer::save(std::ostream& out) const
 {
-	out << "BUYER " << getUserId() << " " << getUsername() << " " << getPassword() << " " << balance << "\n";
+	out << "BUYER " << getUserId() << " " << getUsername() << " "
+		<< getPassword() << " " << balance << " ";
+
+	const auto& wl = wishlist.getItems();
+	out << wl.size();
+	for (const auto& name : wl) out << " " << name;
+
+	out << " " << discounts.size();
+	for (const auto& d : discounts) {
+		out << " ";
+		d->save(out);
+	}
+
+	out << "\n";
 }

@@ -28,4 +28,6 @@ public:
 	unsigned getRating() const;
 
 	static void setNextId(unsigned maxId);
+
+	void save(std::ostream& out) const;
 };

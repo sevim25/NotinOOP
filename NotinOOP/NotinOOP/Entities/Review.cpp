@@ -1,5 +1,6 @@
 #include "Review.h"
 #include <stdexcept>
+#include <iostream>
 
 unsigned Review::nextReviewId = 1;
 
@@ -64,4 +65,11 @@ void Review::setNextId(unsigned maxId)
     if (maxId >= nextReviewId) {
         nextReviewId = maxId + 1;
     }
+}
+
+void Review::save(std::ostream& out) const
+{
+    std::string safeComment = comment;
+    for (char& c : safeComment) if (c == ' ') c = '_';
+    out << reviewId << " " << userId << " " << rating << " " << safeComment;
 }

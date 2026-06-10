@@ -1,5 +1,7 @@
 #include "NotinOOP.h"
 #include "Users/Buyer.h"
+#include "Discounts/BonusDiscount.h"
+#include "Discounts/BrandDiscount.h"
 #include <stdexcept>
 #include <iostream>
 
@@ -7,7 +9,7 @@
 
 NotinOOP::NotinOOP() : loggedUser(nullptr), loggedAdmin(nullptr), loggedBuyer(nullptr) 
 {
-    loadFromFile("notino.txt");
+    loadFromFile("notinOOP.txt");
 
     if (users.empty()) {
 	    users.push_back(std::make_unique<Admin>(1, "admin", "admin123", fragrances, users, purchases));
@@ -124,13 +126,13 @@ void NotinOOP::loadFromFile(const std::string& filename) {
                 unsigned revId, userId, rating;
                 std::string comment;
 
-                in >> revId >> userId >> rating;
-                in.ignore(); 
-                std::getline(in, comment);
+                in >> revId >> userId >> rating >> comment;
+                for (char& c : comment) if (c == '_') c = ' ';
 
                 f->addReview(Review(revId, name, userId, comment, rating));
                 Review::setNextId(revId); 
             }
+
             Fragrance::setNextId(id);
             fragrances.push_back(std::move(f));
         }
@@ -145,8 +147,40 @@ void NotinOOP::loadFromFile(const std::string& filename) {
             }
             else if (role == "BUYER") {
                 double balance;
-                in >> balance;
-                users.push_back(std::make_unique<Buyer>(id, user, pass, fragrances, purchases, balance));
+                size_t wishlistCount;
+                in >> balance >> wishlistCount;
+
+                auto b = std::make_unique<Buyer>(id, user, pass, fragrances, purchases, balance);
+
+                // wishlist
+                for (size_t i = 0; i < wishlistCount; i++) {
+                    std::string name;
+                    in >> name;
+                    b->addToWishlist(name);
+                }
+                User::setNextId(id + 1);
+                users.push_back(std::move(b));
+
+                //Discounts
+
+                size_t discountsCount;
+                in >> discountsCount;
+                for (size_t i = 0; i < discountsCount; i++) {
+                    std::string type; double percent;
+                    in >> type >> percent;
+                    if (type == "BONUS") {
+                        double bonus; in >> bonus;
+                        b->addDiscount(std::make_unique<BonusDiscount>(percent, bonus));
+                    }
+                    else if (type == "BRAND") {
+                        std::string brand; in >> brand;
+                        b->addDiscount(std::make_unique<BrandDiscount>(percent, brand));
+                    }
+                    else {
+                        b->addDiscount(std::make_unique<Discount>(percent));
+                    }
+                }
+
             }
         }
         else if (currentSection == "#PURCHASES") {
@@ -168,7 +202,6 @@ void NotinOOP::loadFromFile(const std::string& filename) {
         }
     }
 }
-
 
 void NotinOOP::run()
 {
@@ -203,10 +236,9 @@ void NotinOOP::run()
         if (isRunning) {
             std::cout << '\n';
         }
-
 	}
 
-    saveToFile("notino.txt");
+    saveToFile("notinOOP.txt");
     std::cout << "\nData saved successfully. Exiting...\n";
 }
 

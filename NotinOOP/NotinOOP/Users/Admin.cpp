@@ -18,13 +18,14 @@ Admin* Admin::asAdmin()
 
 void Admin::blockUser(const std::string& username)
 {
-	for (const auto& user : users) {
-		if (user->getUsername() == username) {
-			user->setBlocked(true);
-			return;
-		}
+	auto it = std::find_if(users.begin(), users.end(),
+		[&](const auto& u) { return u->getUsername() == username; });
+
+	if (it == users.end()) {
+		throw std::invalid_argument("Error: User not found.");
 	}
-	throw std::invalid_argument("Error: User not found.");
+
+	users.erase(it);
 }
 
 void Admin::createFragrance(const std::string& fragranceName, const std::string& brand,
@@ -92,15 +93,15 @@ void Admin::removeReview(unsigned fragranceId, unsigned reviewId)
 
 void Admin::help() const
 {
-	std::cout << "=== ADMIN COMMANDS ===\n"
-		<< "  block-user <username>                             - Blocks a user\n"
-		<< "  create-fragrance <name> <brand> <price> <family>  - Adds new fragrance\n"
-		<< "  add-quantity <fragrance-name> <quantity>          - Adds stock\n"
-		<< "  deliver <purchase-id>                             - Marks as delivered\n"
-		<< "  remove-review <fragrance-id> <review-id>          - Removes a review\n"
-		<< "  logout                                            - Log out\n"
-		<< "  help                                              - Show this menu\n"
-		<< "  end                                               - Save and exit\n"
+	std::cout << "============== ADMIN COMMANDS ==================\n"
+		<< "  -> block-user <username>                             - Blocks a user\n"
+		<< "  -> create-fragrance <name> <brand> <price> <family>  - Adds new fragrance\n"
+		<< "  -> add-quantity <fragrance-name> <quantity>          - Adds stock\n"
+		<< "  -> deliver <purchase-id>                             - Marks as delivered\n"
+		<< "  -> remove-review <fragrance-id> <review-id>          - Removes a review\n"
+		<< "  -> logout                                            - Log out\n"
+		<< "  -> help                                              - Show this menu\n"
+		<< "  -> end                                               - Save and exit\n"
 		<< "======================\n";
 }
 

@@ -108,12 +108,11 @@ void Fragrance::setNextId(unsigned maxId)
 }
 
 void Fragrance::save(std::ostream& out) const {
-    out << fragranceId << " " << name << " " << brand << " "
-        << price << " " << toString(note) << " " << quantity << " "
-        << reviews.size() << "\n";
+    out << fragranceId << " " << name << " " << brand << " " << price << " "
+        << toString(note) << " " << quantity << " " << reviews.size() << "\n";
 
     for (const auto& r : reviews) {
-        out << r.getReviewId() << " " << r.getUserId() << " "
-            << r.getRating() << " " << r.getComment() << "\n";
+        r.save(out);  
+        out << "\n";
     }
 }

@@ -11,4 +11,5 @@ public:
 	BrandDiscount(unsigned discountId, double discountPercent, const std::string& brandName);
 
 	double apply(const Fragrance* fragrance) const override;
+	void save(std::ostream& out) const;
 };

@@ -64,6 +64,7 @@ std::vector<Fragrance*> Cart::getAvailableItems(std::vector<std::unique_ptr<Frag
 
 void Cart::viewCart() const
 {
+	std::cout << '\n';
 	std::cout << "--- Cart ---\n";
 	for (const auto& i : items) {
 		std::cout << i << '\n';

@@ -86,10 +86,11 @@ void Purchase::show() const
 void Purchase::save(std::ostream& out) const {
 
     out << purchaseId << " " << userId << " " << static_cast<int>(status)
-        << " " << totalPrice << " " << boughtFragranceNames.size() << "\n";
+        << " " << totalPrice << " " << boughtFragranceNames.size();
 
     for (const auto& name : boughtFragranceNames) {
-        out << name << " ";
+        out << " " << name;
     }
+
     out << "\n";
 }

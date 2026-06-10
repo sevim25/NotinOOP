@@ -8,6 +8,11 @@ Discount::Discount(double discountPercent)
 Discount::Discount(unsigned discountId, double discountPercent)
 	: discountId(discountId), discountPercent(discountPercent) {}
 
+double Discount::getDiscountPercent() const
+{
+	return discountPercent;
+}
+
 double Discount::apply(const Fragrance* fragrance) const
 {
 	return fragrance->getPrice() * (1 - (discountPercent / 100));
@@ -18,4 +23,10 @@ void Discount::setNextId(unsigned maxId)
 	if (maxId >= nextId) {
 		nextId = maxId + 1;
 	}
+}
+
+void Discount::save(std::ostream& out) const 
+{
+	out << "PERCENT " << getDiscountPercent();
+
 }

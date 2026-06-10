@@ -16,6 +16,7 @@ class User
 	unsigned removedReviewsCount = 0;
 
 	static constexpr unsigned MAX_REMOVED_REVIEWS = 7;
+	static unsigned nextId;
 
 public: 
 	User(unsigned userId, const std::string& username, const std::string& password);
@@ -40,5 +41,7 @@ public:
 	void setBlocked(bool status);
 
 	bool applyReviewRemovalPenalty();
+
+	static void setNextId(unsigned id);
 
 };

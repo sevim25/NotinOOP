@@ -8,42 +8,45 @@ HelpCommand::HelpCommand(NotinOOP& system) : system(system) {}
 void HelpCommand::execute()
 {
     User* user = system.getLoggedInUser();
+
+    cout << '\n';
+
     if (user == nullptr) {
-        cout << "Available commands:\n";
-        cout << "register <username> <password>\n";
-        cout << "login <username> <password>\n";
-        cout << "end\n";
-        cout << "help\n";
+        std::cout << "Available commands:\n" << '\n'
+            << "-> register <username> <password>\n"
+            << "-> login <username> <password>\n"
+            << "-> end\n"
+            << "-> help\n";
         return;
     }
 
-    if (user->getRole() == "ADMIN") {
-        cout << "Available Admin commands:\n";
-        cout << "logout\n";
-        cout << "help\n";
-        cout << "block-user <username>\n";
-        cout << "create-fragrance <name> <brand> <price> <fragranceFamily>\n";
-        cout << "add-quantity <fragrance-name> <quantity>\n";
-        cout << "deliver <purchase-id>\n";
-        cout << "remove-review <fragrance-id> <review-id>\n";
-        cout << "end\n";
+    if (user->asAdmin() != nullptr) {
+        std::cout << "Available Admin commands:\n" << '\n'
+            << "-> logout\n"
+            << "-> help\n"
+            << "-> block-user <username>\n"
+            << "-> create-fragrance <name> <brand> <price> <fragranceFamily>\n"
+            << "-> add-quantity <fragrance-name> <quantity>\n"
+            << "-> deliver <purchase-id>\n"
+            << "-> remove-review <fragrance-id> <review-id>\n"
+            << "-> end\n";
     }
     else {
-        cout << "Available Buyer commands:\n";
-        cout << "logout\n";
-        cout << "help\n";
-        cout << "add-to-balance <amount>\n";
-        cout << "add-to-wishlist <fragrance-name>\n";
-        cout << "remove-from-wishlist <fragrance-name>\n";
-        cout << "add-to-cart <fragrance-name>\n";
-        cout << "remove-from-cart <fragrance-name>\n";
-        cout << "view-cart\n";
-        cout << "view-bought\n";
-        cout << "view-purchases\n";
-        cout << "recommend\n";
-        cout << "checkout\n";
-        cout << "cancel <purchase-id>\n";
-        cout << "make-review <fragrance-name> <rating> <comment>\n";
-        cout << "end\n";
+        std::cout << "Available Buyer commands:\n" << '\n'
+            << "-> logout\n"
+            << "-> help\n"
+            << "-> add-to-balance <amount>\n"
+            << "-> add-to-wishlist <fragrance-name>\n"
+            << "-> remove-from-wishlist <fragrance-name>\n"
+            << "-> add-to-cart <fragrance-name>\n"
+            << "-> remove-from-cart <fragrance-name>\n"
+            << "-> view-cart\n"
+            << "-> view-bought\n"
+            << "-> view-purchases\n"
+            << "-> recommend\n"
+            << "-> checkout\n"
+            << "-> cancel <purchase-id>\n"
+            << "-> make-review <fragrance-name> <rating> <comment>\n"
+            << "-> end\n";
     }
 }

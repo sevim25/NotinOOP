@@ -16,3 +16,8 @@ double BonusDiscount::apply(const Fragrance* fragrance) const
 
     return finalPrice;
 }
+
+void BonusDiscount::save(std::ostream& out) const
+{
+    out << "BONUS " << getDiscountPercent() << " " << bonus;
+}

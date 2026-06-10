@@ -52,5 +52,7 @@ public:
 
 	Purchase* findPurchase(unsigned purchaseId);
 
+	void addDiscount(std::unique_ptr<Discount> d);
+
 	void save(std::ostream& out) const override;
 };

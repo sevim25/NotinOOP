@@ -14,3 +14,8 @@ double BrandDiscount::apply(const Fragrance* fragrance) const
     }
     return fragrance->getPrice();
 }
+
+void BrandDiscount::save(std::ostream& out) const
+{
+    out << "BRAND " << getDiscountPercent() << " " << brandName;
+}

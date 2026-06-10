@@ -16,5 +16,7 @@ public:
 
 	bool contains(const std::string& fragranceName) const;
 
+	const std::vector<std::string>& getItems() const;
+
 	FragranceFamily getFavoriteNote(const std::vector<std::unique_ptr<Fragrance>>& catalog) const;
 };
