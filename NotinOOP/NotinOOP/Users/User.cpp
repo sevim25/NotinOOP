@@ -44,3 +44,12 @@ unsigned User::getUserId() const
 	return userId;
 }
 
+Admin* User::asAdmin()
+{
+	return nullptr;
+}
+
+Buyer* User::asBuyer()
+{
+	return nullptr;
+}

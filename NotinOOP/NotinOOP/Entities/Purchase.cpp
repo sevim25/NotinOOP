@@ -64,10 +64,10 @@ void Purchase::setNextId(unsigned maxId)
 
 void Purchase::show() const
 {
-    std::cout << "--- Purchase ID: " << purchaseId << " ---\n";
-    std::cout << "User ID: " << userId << "\n";
+    std::cout << "--- Purchase ID: " << purchaseId << " ---\n"
+        << "User ID: " << userId << "\n"
+        << "Status: ";
 
-    std::cout << "Status: ";
     switch (status) {
     case PurchaseStatus::PENDING: std::cout << "PENDING\n"; break;
     case PurchaseStatus::DELIVERED: std::cout << "DELIVERED\n"; break;
@@ -79,24 +79,17 @@ void Purchase::show() const
         std::cout << "  - " << name << "\n";
     }
 
-    std::cout << "Total Price: " << totalPrice << "\n";
-    std::cout << "------------------------\n";
+    std::cout << "Total Price: " << totalPrice << "\n"
+        << "------------------------\n";
 }
 
-void Purchase::showAllSuccessfulPurchases() const
-{
-    if (this->status == PurchaseStatus::DELIVERED)
-    {
-        std::cout << "--- Purchase ID: " << purchaseId << " ---\n";
-        std::cout << "User ID: " << userId << "\n";
-        std::cout << "Status: DELIVERED\n";
+void Purchase::save(std::ostream& out) const {
 
-        std::cout << "Fragrances:\n";
-        for (const auto& name : boughtFragranceNames) {
-            std::cout << "  - " << name << "\n";
-        }
+    out << purchaseId << " " << userId << " " << static_cast<int>(status)
+        << " " << totalPrice << " " << boughtFragranceNames.size() << "\n";
 
-        std::cout << "Total Price: " << totalPrice << "\n";
-        std::cout << "------------------------\n";
+    for (const auto& name : boughtFragranceNames) {
+        out << name << " ";
     }
+    out << "\n";
 }

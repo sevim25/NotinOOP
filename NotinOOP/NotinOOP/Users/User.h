@@ -1,6 +1,10 @@
 #pragma once
 #include "Entities/Fragrance.h"
 #include "Entities/Purchase.h"
+#include <ostream>
+
+class Admin;
+class Buyer;
 
 class User 
 {
@@ -15,7 +19,18 @@ class User
 
 public: 
 	User(unsigned userId, const std::string& username, const std::string& password);
+
+	virtual void help() const = 0;
+	virtual std::string getRole() const = 0;
+	virtual void save(std::ostream& out) const = 0;
+
+	virtual Admin* asAdmin();
+	virtual Buyer* asBuyer();
+
+	virtual ~User() = default;
+
 	unsigned getUserId() const;
+
 	const std::string& getUsername() const;
 	const std::string& getPassword() const;
 
@@ -25,10 +40,5 @@ public:
 	void setBlocked(bool status);
 
 	bool applyReviewRemovalPenalty();
-
-	virtual void help() const = 0;
-	virtual std::string getRole() const = 0;
-
-	virtual ~User() = default;
 
 };

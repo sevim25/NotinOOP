@@ -1,7 +1,11 @@
 #include "Wishlist.h"
+#include <stdexcept>
 
 void Wishlist::add(const std::string& fragranceName)
 {
+	if (contains(fragranceName)) {
+		throw std::invalid_argument("Error: '" + fragranceName + "' is already in your wishlist.");
+	}
 	items.push_back(fragranceName);
 }
 

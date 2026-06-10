@@ -28,6 +28,8 @@ public:
 	Buyer(unsigned userId, const std::string& username, const std::string& password, 
 		  std::vector<std::unique_ptr<Fragrance>>& fragrances, std::vector<Purchase>& purchases, double balance);
 	
+	virtual Buyer* asBuyer() override;
+
 	void addToBalance(double amount);
 
 	void addToCart(const std::string& fragranceName);
@@ -49,4 +51,6 @@ public:
 	std::string getRole() const override;
 
 	Purchase* findPurchase(unsigned purchaseId);
+
+	void save(std::ostream& out) const override;
 };

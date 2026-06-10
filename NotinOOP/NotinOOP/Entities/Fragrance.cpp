@@ -1,13 +1,14 @@
 #include "Fragrance.h"
+#include <stdexcept>
 
 unsigned Fragrance::nextId = 1;
 
-Fragrance::Fragrance(unsigned fragranceId, const std::string& name, const std::string& brand, double price, FragranceFamily note, size_t quantity)
+Fragrance::Fragrance(unsigned fragranceId, const std::string& name, const std::string& brand, double price, FragranceFamily note, double quantity)
     : fragranceId(fragranceId), name(name), brand(brand), price(price), note(note), quantity(quantity)
 {
 }
 
-Fragrance::Fragrance(const std::string& name, const std::string& brand, double price, FragranceFamily note, size_t quantity)
+Fragrance::Fragrance(const std::string& name, const std::string& brand, double price, FragranceFamily note, double quantity)
     : fragranceId(nextId++), name(name), brand(brand), price(price), note(note), quantity(quantity) {
 }
 
@@ -31,7 +32,7 @@ double Fragrance::getPrice() const
     return price;
 }
 
-size_t Fragrance::getQuantity() const
+double Fragrance::getQuantity() const
 {
     return quantity;
 }
@@ -61,12 +62,12 @@ void Fragrance::removeReview(unsigned reviewId)
     }
 }
 
-void Fragrance::addQuantity(size_t amount)
+void Fragrance::addQuantity(double amount)
 {
     quantity += amount;
 }
 
-void Fragrance::removeQuantity(size_t amount)
+void Fragrance::removeQuantity(double amount)
 {
     if (quantity >= amount) {
         quantity -= amount;
@@ -88,9 +89,31 @@ double Fragrance::getRating() const
     return sum / reviews.size();
 }
 
+unsigned Fragrance::getReviewAuthorId(unsigned reviewId) const
+{
+    for (const auto& review : reviews) {
+        if (review.getReviewId() == reviewId) {
+            return review.getUserId();
+        }
+    }
+
+    throw std::invalid_argument("Error: Review with this ID does not exist in the fragrance.");
+}
+
 void Fragrance::setNextId(unsigned maxId)
 {
     if (maxId >= nextId) {
         nextId = maxId + 1;
+    }
+}
+
+void Fragrance::save(std::ostream& out) const {
+    out << fragranceId << " " << name << " " << brand << " "
+        << price << " " << toString(note) << " " << quantity << " "
+        << reviews.size() << "\n";
+
+    for (const auto& r : reviews) {
+        out << r.getReviewId() << " " << r.getUserId() << " "
+            << r.getRating() << " " << r.getComment() << "\n";
     }
 }

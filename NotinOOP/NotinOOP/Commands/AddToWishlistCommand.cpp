@@ -23,7 +23,7 @@ void AddToWishlistCommand::execute()
 		}
 
 		buyer->addToWishlist(fragranceName);
-		cout << "Success: '" << fragranceName << "' was added to your cart.\n";
+		cout << "Success: '" << fragranceName << "' was added to your wishlist.\n";
 	}
 	catch (const std::exception& e) {
 		cout << e.what() << '\n';

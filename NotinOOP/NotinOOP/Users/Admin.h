@@ -1,11 +1,7 @@
 #pragma once
 #include <memory>
-#include <optional>
 #include "User.h"
-#include "Cart.h"
 #include "Entities/Purchase.h"
-#include "Discounts/Discount.h"
-#include "Wishlist.h"
 
 class Admin : public User
 {
@@ -20,11 +16,19 @@ public:
 		  std::vector<std::unique_ptr<User>>& users, 
 		  std::vector<Purchase>& purchases);
 
+	virtual Admin* asAdmin() override;
+
 	void blockUser(const std::string& username);
-	void createFragrance(const std::string& fragranceName, const std::string& brand, double price);
+
+	void createFragrance(const std::string& fragranceName, const std::string& brand,
+						double price, FragranceFamily note, double quantity);
+
 	void addQuantity(const std::string& fragranceName, double quantity);
 	void deliver(unsigned purchaseId);
 	void removeReview(unsigned fragranceId, unsigned reviewId);
 
+	void help() const override;
+	std::string getRole() const override;
 
+	void save(std::ostream& out) const override;
 };

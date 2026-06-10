@@ -14,14 +14,12 @@ BlockUserCommand::BlockUserCommand(NotinOOP& system, const std::string& username
 void BlockUserCommand::execute()
 {
 	try {
-		User* current = system.getLoggedInUser();
-
-		if (current == nullptr || current->getRole() == "ADMIN") {
-			cout << "Error: Only admins can block users!";
+		Admin* admin = system.getLoggedInAdmin();
+		if (admin == nullptr) {
+			cout << "Error: Only admins can block users!\n";
 			return;
 		}
 
-		Admin* admin = dynamic_cast<Admin*>(current);
 		admin->blockUser(username);
 
 		cout << "User " << username << " was successfully blocked.\n";

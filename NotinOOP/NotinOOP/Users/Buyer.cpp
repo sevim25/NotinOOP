@@ -1,10 +1,15 @@
 #include "Buyer.h"
 #include <iostream>
 #include "Wishlist.h"
-
+#include <iomanip>
 
 Buyer::Buyer(unsigned userId, const std::string& username, const std::string& password, std::vector<std::unique_ptr<Fragrance>>& frag, std::vector<Purchase>& purchases, double balance)
 		: User(userId, username, password), fragrances(frag), purchases(purchases), balance(balance) {}
+
+Buyer* Buyer::asBuyer()
+{
+	return this;
+}
 
 void Buyer::addToBalance(double amount)
 {
@@ -43,23 +48,68 @@ Purchase* Buyer::findPurchase(unsigned purchaseId)
 
 // VIEW functions
 
+void Buyer::viewCart() const
+{
+	cart.viewCart();
+}
 void Buyer::viewBought() const
 {
+	bool found = false;
 	for (const auto& p : purchases) {
-		p.showAllSuccessfulPurchases();
+		if (p.getUserId() == this->getUserId() && p.getStatus() == PurchaseStatus::DELIVERED) {
+			p.show();
+			found = true;
+		}
+	}
+	if (!found) {
+		std::cout << "You have no delivered orders yet.\n";
 	}
 }
 
 void Buyer::viewPurchases() const
 {
-	if (purchases.empty()) {
+	bool found = false;
+
+	for (const auto& p : purchases) {
+		if (p.getUserId() == this->getUserId()) {
+			found = true;
+			break;
+		}
+	}
+
+	if (!found) {
 		std::cout << "You have no orders placed.\n";
 		return;
 	}
 
+	std::cout << "\n=== YOUR ORDER HISTORY ===\n";
+
+	std::cout << std::left
+		<< std::setw(10) << "Order ID"
+		<< std::setw(15) << "Status"
+		<< std::setw(15) << "Total Price"
+		<< "Items Count\n";
+
+	std::cout << "--------------------------------------------------\n";
+
 	for (const auto& p : purchases) {
-		p.show();
+		if (p.getUserId() == this->getUserId()) {
+
+			std::string statusStr;
+			switch (p.getStatus()) {
+			case PurchaseStatus::PENDING: statusStr = "PENDING"; break;
+			case PurchaseStatus::DELIVERED: statusStr = "DELIVERED"; break;
+			case PurchaseStatus::CANCELED: statusStr = "CANCELED"; break;
+			}
+
+			std::cout << std::left
+				<< std::setw(10) << p.getPurchaseId()
+				<< std::setw(15) << statusStr
+				<< std::setw(15) << p.getTotalPrice()
+				<< p.getBoughtFragranceNames().size() << "\n";
+		}
 	}
+	std::cout << "--------------------------------------------------\n";
 }
 
 
@@ -147,6 +197,7 @@ void Buyer::checkout()
 {
 	if (cart.isEmpty()) {
 		std::cout << "Your cart is empty!\n";
+		return;
 	}
 
 	std::vector<std::string> successfullyBoughtNames;
@@ -213,4 +264,9 @@ void Buyer::help() const
 std::string Buyer::getRole() const
 {
 	return "BUYER";
+}
+
+void Buyer::save(std::ostream& out) const
+{
+	out << "BUYER " << getUserId() << " " << getUsername() << " " << getPassword() << " " << balance << "\n";
 }

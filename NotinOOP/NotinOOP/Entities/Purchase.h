@@ -2,6 +2,7 @@
 #include <vector>
 #include <string>
 #include "Fragrance.h"
+#include <ostream>
 
 enum class PurchaseStatus {
 	PENDING, DELIVERED, CANCELED
@@ -34,7 +35,8 @@ public:
 	void setStatus(PurchaseStatus status);
 
 	void show() const;
-	void showAllSuccessfulPurchases() const;
 
 	static void setNextId(unsigned maxId);
+
+	void save(std::ostream& out) const;
 };

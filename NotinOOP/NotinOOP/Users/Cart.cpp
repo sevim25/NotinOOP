@@ -40,8 +40,13 @@ std::vector<Fragrance*> Cart::getAvailableItems(std::vector<std::unique_ptr<Frag
 		for (auto& fragrance : catalog) {
 			if (fragrance->getName() == item) 
 			{
-				avaible.push_back(fragrance.get());
-				stillInStock.push_back(item);
+				if (fragrance->getQuantity() == 0) {
+					std::cout << "Perfume " << item << " is out of stock and has been removed from the cart.\n";
+				}
+				else {
+					avaible.push_back(fragrance.get());
+					stillInStock.push_back(item);
+				}
 				found = true;
 				break;
 			}

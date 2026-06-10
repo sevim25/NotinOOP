@@ -6,6 +6,13 @@
 #include "Users/User.h"
 #include "Entities/Fragrance.h"
 #include "Entities/Purchase.h"
+#include "Users/Admin.h"
+
+#include <fstream>
+
+class Admin;
+class Buyer;
+class Fragrance;
 
 class NotinOOP
 {
@@ -14,6 +21,8 @@ class NotinOOP
     std::vector<Purchase> purchases;
 
     User* loggedUser;
+    Admin* loggedAdmin;
+    Buyer* loggedBuyer;
 
 public:
     NotinOOP();
@@ -23,6 +32,11 @@ public:
     void logout();
 
     User* getLoggedInUser() const;
+    Admin* getLoggedInAdmin() const;
+    Buyer* getLoggedInBuyer() const;
 
     void run();
+
+    void saveToFile(const std::string& filename) const;
+    void loadFromFile(const std::string& filename);
 };
