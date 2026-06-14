@@ -60,3 +60,8 @@ void User::setNextId(unsigned id)
 {
 	nextId = id;
 }
+
+unsigned User::getNextId()
+{
+	return nextId;
+}

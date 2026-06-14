@@ -3,8 +3,7 @@
 
 int main()
 {
-    NotinOOP system;
-    system.run();
+    NotinOOP::getInstance().run();
     
 }
 

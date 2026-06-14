@@ -237,13 +237,13 @@ void Buyer::cancel(unsigned purchaseId)
 void Buyer::help() const
 {
 	std::cout << "==================== BUYER COMMANDS =====================\n"
-		<< " -> add-to-cart <name>			- Adds perfume to cart\n"
-		<< " -> remove-from-cart <name>     - Removes perfume from cart\n"
-		<< " -> add-to-wishlist <name>		- Adds perfume to favorites\n"
-		<< " -> checkout				    - Checkout cart\n"
-		<< " -> recommend					- Recommends 3 perfumes\n"
-		<< " -> cancel <id>					- Cancels PENDING order\n"
-		<< " -> make-review <name>			- Leave a review for perfume\n"
+		<< " -> add-to-cart <name>\n"
+		<< " -> remove-from-cart <name>\n"
+		<< " -> add-to-wishlist <name>\n"
+		<< " -> checkout\n"
+		<< " -> recommend\n"
+		<< " -> cancel <id>\n"
+		<< " -> make-review <name>\n"
 		<< "==============================\n";
 }
 

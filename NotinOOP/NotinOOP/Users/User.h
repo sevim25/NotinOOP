@@ -43,5 +43,5 @@ public:
 	bool applyReviewRemovalPenalty();
 
 	static void setNextId(unsigned id);
-
+	static unsigned getNextId();
 };

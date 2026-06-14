@@ -16,6 +16,13 @@ NotinOOP::NotinOOP() : loggedUser(nullptr), loggedAdmin(nullptr), loggedBuyer(nu
     }
 }
 
+NotinOOP& NotinOOP::getInstance()
+{
+    static NotinOOP instance;
+
+    return instance;
+}
+
 void NotinOOP::registerBuyer(const std::string& username, const std::string& password)
 {
 	for (const auto& u : users) {
@@ -24,8 +31,9 @@ void NotinOOP::registerBuyer(const std::string& username, const std::string& pas
 		}
 	}
 
-	unsigned newUserId = users.size() + 1;
+	unsigned newUserId = User::getNextId();
 	users.push_back(std::make_unique<Buyer>(newUserId, username, password, fragrances, purchases,0));
+    User::setNextId(newUserId + 1);
 }
 
 void NotinOOP::login(const std::string& username, const std::string& password)

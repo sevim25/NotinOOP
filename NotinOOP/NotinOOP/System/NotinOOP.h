@@ -28,8 +28,14 @@ class NotinOOP
     void loadUsers(std::ifstream& in, const std::string& role);
     void loadPurchases(std::ifstream& in, const std::string& firstToken);
 
-public:
     NotinOOP();
+
+public:
+
+    NotinOOP(const NotinOOP&) = delete;
+    NotinOOP& operator=(const NotinOOP&) = delete;
+
+    static NotinOOP& getInstance();
 
     void registerBuyer(const std::string& username, const std::string& password);
     void login(const std::string& username, const std::string& password);

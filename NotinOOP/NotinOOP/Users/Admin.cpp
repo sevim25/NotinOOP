@@ -25,8 +25,7 @@ void Admin::blockUser(const std::string& username)
 		throw std::invalid_argument("Error: User not found.");
 	}
 
-	setBlocked(true);
-	users.erase(it);
+	(*it)->setBlocked(true);
 }
 
 void Admin::createFragrance(const std::string& fragranceName, const std::string& brand,
