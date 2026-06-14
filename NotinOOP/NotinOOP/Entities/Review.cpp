@@ -70,6 +70,12 @@ void Review::setNextId(unsigned maxId)
 void Review::save(std::ostream& out) const
 {
     std::string safeComment = comment;
-    for (char& c : safeComment) if (c == ' ') c = '_';
+
+    for (char& c : safeComment) {
+        if (c == ' ') {
+            c = '_';
+        }
+    }
+
     out << reviewId << " " << userId << " " << rating << " " << safeComment;
 }

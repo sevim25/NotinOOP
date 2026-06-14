@@ -1,10 +1,11 @@
 #FRAGRANCES
-1 Perfume1 CHANEL 120 FLORAL 9 1
-1 2 5 Great_smell
-2 Perfume2 DIOR 95 WOODY 5 0
-3 Perfume3 VERSACE 60 FLORAL 8 0
+1 Perfume1 CHANEL 120 FLORAL 9 0
+2 Perfume2 DIOR 95 WOODY 4 0
+3 Perfume3 VERSACE 60 FLORAL 7 0
+4 Perfume4 GUCCI 110 ORIENTAL 3 0
 #USERS
 ADMIN 1 admin admin123
-BUYER 2 ivan ivan123 380 2 Perfume1 Perfume2 0
+BUYER 2 ivan ivan123 500 2 Perfume1 Perfume2 0
 #PURCHASES
-1 2 0 120 1 Perfume1
+1 2 2 215 2 Perfume1 Perfume2
+2 3 1 60 1 Perfume3

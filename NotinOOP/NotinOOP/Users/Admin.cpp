@@ -25,6 +25,7 @@ void Admin::blockUser(const std::string& username)
 		throw std::invalid_argument("Error: User not found.");
 	}
 
+	setBlocked(true);
 	users.erase(it);
 }
 

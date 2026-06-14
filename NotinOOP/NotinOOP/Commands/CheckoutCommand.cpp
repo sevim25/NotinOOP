@@ -8,17 +8,10 @@ CheckoutCommand::CheckoutCommand(NotinOOP& system) : system(system) {}
 
 void CheckoutCommand::execute()
 {
-    try {
-        Buyer* buyer = system.getLoggedInBuyer();
-        if (buyer == nullptr) {
-            std::cout << "Error: Only logged-in buyers can checkout!\n";
-            return;
-        }
-
-        buyer->checkout();
-        std::cout << "Success: Checkout completed successfully.\n";
+    Buyer* buyer = system.getLoggedInBuyer();
+    if (buyer == nullptr) {
+        throw std::runtime_error("Error: Only logged-in buyers can checkout!");
     }
-    catch (const std::exception& e) {
-        std::cout << e.what() << '\n';
-    }
+    buyer->checkout();
+    std::cout << "Success: Checkout completed successfully.\n";
 }

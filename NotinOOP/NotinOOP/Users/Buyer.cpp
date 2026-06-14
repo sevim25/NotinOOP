@@ -87,7 +87,7 @@ void Buyer::viewPurchases() const
 		return;
 	}
 
-	std::cout << "\n================= YOUR ORDER HISTORY =================n";
+	std::cout << "\n================= YOUR ORDER HISTORY =================\n";
 
 	std::cout << std::left
 		<< std::setw(10) << "Order ID"
@@ -95,7 +95,7 @@ void Buyer::viewPurchases() const
 		<< std::setw(15) << "Total Price"
 		<< "Items Count\n";
 
-	std::cout << "--------------------------------------------------\n";
+	std::cout << "\n--------------------------------------------------\n";
 
 	for (const auto& p : purchases) {
 		if (p.getUserId() == this->getUserId()) {
@@ -165,8 +165,6 @@ void Buyer::finalizePurchase(double totalSum, const std::vector<std::string>& bo
 	purchases.push_back(newOrder);
 
 	cart.clear();
-
-	std::cout << "Successful payment! Total amount: " << totalSum << '\n';
 }
 
 
@@ -200,19 +198,14 @@ void Buyer::recommend() const
 
 void Buyer::checkout()
 {
-	if (cart.isEmpty()) {
-		std::cout << "Your cart is empty!\n";
-		return;
-	}
+	if (cart.isEmpty())
+		throw std::invalid_argument("Error: Your cart is empty!");
 
 	std::vector<std::string> successfullyBoughtNames;
-
 	double sum = calculateCartTotal(successfullyBoughtNames);
 
-	if (sum > balance) {
-		std::cout << "You do not have enough money in your balance for this order.\n";
-		return;
-	}
+	if (sum > balance)
+		throw std::invalid_argument("Error: Not enough balance.");
 
 	finalizePurchase(sum, successfullyBoughtNames);
 }
@@ -221,41 +214,29 @@ void Buyer::makeReview(const std::string& fragranceName, unsigned rating, const 
 {
 	for (auto& fragrance : fragrances) {
 		if (fragrance->getName() == fragranceName) {
-			
 			Review r(fragranceName, this->getUserId(), comment, rating);
-
 			fragrance->addReview(r);
-
-			std::cout << "Your review for " << fragranceName << " has been added successfully!\n";
 			return;
 		}
 	}
-	std::cout << "Error: Perfume with name '" << fragranceName << "' not found in the store.\n";
+	throw std::invalid_argument("Error: Perfume '" + fragranceName + "' not found in the store.");
 }
 
 void Buyer::cancel(unsigned purchaseId)
 {
 	Purchase* found = findPurchase(purchaseId);
+	if (found == nullptr)
+		throw std::invalid_argument("Error: Order not found in your history.");
+	if (found->getStatus() != PurchaseStatus::PENDING)
+		throw std::invalid_argument("Error: Order cannot be canceled.");
 
-	if (found != nullptr) {
-		if (found->getStatus() == PurchaseStatus::PENDING) {
-			found->setStatus(PurchaseStatus::CANCELED);
-
-			balance += found->getTotalPrice();
-			std::cout << "Order #" << purchaseId << " has been successfully canceled. The amount has been refunded.\n";
-		}
-		else {
-			std::cout << "The order cannot be canceled because it has already been shipped or canceled.\n";
-		}
-	}
-	else {
-		std::cout << "An order with such an ID does not exist in your history.\n";
-	}
+	found->setStatus(PurchaseStatus::CANCELED);
+	balance += found->getTotalPrice();
 }
 
 void Buyer::help() const
 {
-	std::cout << "==================== BUYER COMMANDS =====================n"
+	std::cout << "==================== BUYER COMMANDS =====================\n"
 		<< " -> add-to-cart <name>			- Adds perfume to cart\n"
 		<< " -> remove-from-cart <name>     - Removes perfume from cart\n"
 		<< " -> add-to-wishlist <name>		- Adds perfume to favorites\n"

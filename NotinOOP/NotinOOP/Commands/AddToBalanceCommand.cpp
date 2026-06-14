@@ -24,7 +24,7 @@ void AddToBalanceCommand::execute()
 		}
 
 		buyer->addToBalance(amount);
-		cout << "Success: Added" << amount << " to balance.\n";
+		cout << "Success: Added " << amount << " to balance.\n";
 	}
 	catch (const std::exception& e) {
 		cout << e.what() << '\n';

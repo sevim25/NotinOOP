@@ -22,8 +22,7 @@ void BlockUserCommand::execute()
 
 		admin->blockUser(username);
 
-		cout << "User " << username << " was successfully blocked.\n";
-		
+		std::cout << "Success: User '" << username << "' has been blocked and removed.\n";
 	}
 	catch (const std::exception& e) {
 		cout << e.what() << '\n';

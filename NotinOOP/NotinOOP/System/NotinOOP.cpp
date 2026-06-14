@@ -166,6 +166,7 @@ void NotinOOP::loadUsers(std::ifstream& in, const std::string& role)
 
         in >> type >> percent;
         if (type == "BONUS") {
+
             double bonus;
             in >> bonus;
 
@@ -198,6 +199,7 @@ void NotinOOP::loadPurchases(std::ifstream& in, const std::string& firstToken)
 
     std::vector<std::string> items;
     for (size_t i = 0; i < itemsCount; i++) {
+
         std::string itemName; in >> itemName;
         items.push_back(itemName);
     }
@@ -232,7 +234,7 @@ void NotinOOP::run()
     std::cout << "==================================================\n";
     std::cout << "          Welcome to NotinOOP!             \n";
     std::cout << " Type 'help' to see the list of available commands.\n";
-    std::cout << "==================================================\n";
+    std::cout << "==================================================\n\n";
 
 	std::string cmd;
     bool isRunning = true;

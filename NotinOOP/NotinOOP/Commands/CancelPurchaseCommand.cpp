@@ -10,17 +10,13 @@ CancelPurchaseCommand::CancelPurchaseCommand(NotinOOP& system, unsigned purchase
 
 void CancelPurchaseCommand::execute()
 {
-    try {
-        Buyer* buyer = system.getLoggedInBuyer();
-        if (buyer == nullptr) {
-            std::cout << "Error: Only logged-in buyers can cancel purchases!\n";
-            return;
-        }
+    Buyer* buyer = system.getLoggedInBuyer();
 
-        buyer->cancel(purchaseId);
-        std::cout << "Success: Purchase #" << purchaseId << " has been canceled.\n";
+    if (buyer == nullptr) {
+        throw std::runtime_error("Error: Only logged-in buyers can cancel orders!");
     }
-    catch (const std::exception& e) {
-        std::cout << e.what() << '\n';
-    }
+
+    buyer->cancel(purchaseId);
+
+    std::cout << "Success: Order #" << purchaseId << " has been canceled. Amount refunded.\n";
 }
